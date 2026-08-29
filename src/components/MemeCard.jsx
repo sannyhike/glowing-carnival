@@ -17,7 +17,7 @@ export default function MemeCard({ meme, user, onAuth, onLike, onComment }) {
       {isVideo ? (
         <video src={meme.video_url} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" controls muted autoPlay loop preload="metadata" />
       ) : (
-        <img src={meme.image_url} alt={meme.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+        <img src={meme.image_path} alt={meme.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
       )}
       <span className="absolute left-4 top-4 rounded-full bg-cream/90 px-3 py-1 text-[11px] font-extrabold uppercase tracking-widest text-ink backdrop-blur">{meme.accent || 'fresh'}</span>
     </div>
