@@ -1,0 +1,19 @@
+import { useEffect, useState } from 'react'
+import { Flame, Clock3, Trophy, Search, SlidersHorizontal } from 'lucide-react'
+import MemeCard from './MemeCard'
+import { demoMemes } from '../data/demoMemes'
+import { supabase } from '../lib/supabase'
+
+const sorts = [{ id: 'trending', label: 'Trending', icon: Flame }, { id: 'latest', label: 'Latest', icon: Clock3 }, { id: 'top', label: 'Top', icon: Trophy }]
+export default function MemeFeed({ user, onAuth }) {
+  const [sort, setSort] = useState('trending'); const [query, setQuery] = useState(''); const [memes, setMemes] = useState(demoMemes); const [loading, setLoading] = useState(true)
+  useEffect(() => { async function load() { if (supabase) { const { data } = await supabase.from('memes').select('*').order('created_at', { ascending: false }); if (data?.length) setMemes(data) } setLoading(false) } load() }, [])
+  const visible = memes.filter((meme) => meme.title.toLowerCase().includes(query.toLowerCase())).sort((a, b) => sort === 'top' ? (b.likes || 0) - (a.likes || 0) : sort === 'latest' ? new Date(b.created_at) - new Date(a.created_at) : 0)
+  async function like(id, shouldLike) { if (!supabase || id.startsWith('demo-')) return; if (shouldLike) await supabase.from('likes').insert({ meme_id: id, user_id: user.id }); else await supabase.from('likes').delete().eq('meme_id', id).eq('user_id', user.id) }
+  async function comment(id, content) { if (supabase && !id.startsWith('demo-')) await supabase.from('comments').insert({ meme_id: id, user_id: user.id, content }) }
+  return <main className="mx-auto max-w-7xl px-5 pb-20 pt-12 lg:px-10 lg:pt-20"><div className="max-w-2xl animate-rise"><p className="mb-4 flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.22em] text-coral"><span className="h-2 w-2 rounded-full bg-coral" /> The internet, lightly toasted</p><h1 className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.06em] sm:text-7xl">Good vibes.<br /><span className="text-ink/35">No context.</span></h1><p className="mt-6 max-w-md text-base leading-relaxed text-ink/55">A tiny corner of the internet for big laughs, strange thoughts, and memes worth sending to the group chat.</p></div>
+    <div className="mt-14 flex flex-col gap-5 border-b border-ink/10 pb-5 md:flex-row md:items-end md:justify-between"><div className="flex gap-1 overflow-x-auto">{sorts.map(({ id, label, icon: Icon }) => <button key={id} onClick={() => setSort(id)} className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold transition-colors ${sort === id ? 'bg-ink text-lime' : 'text-ink/45 hover:bg-white hover:text-ink'}`}><Icon size={16} /> {label}</button>)}</div><label className="relative block md:w-60"><Search size={17} className="absolute left-3.5 top-3 text-ink/35" /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the archive" className="input py-2.5 pl-10 text-sm" /></label></div>
+    {loading ? <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{[1, 2, 3].map((i) => <div key={i} className="h-96 animate-pulse rounded-[1.5rem] bg-ink/5" />)}</div> : <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{visible.map((meme, index) => <div key={meme.id} className="animate-rise" style={{ animationDelay: `${index * 70}ms` }}><MemeCard meme={meme} user={user} onAuth={onAuth} onLike={like} onComment={comment} /></div>)}</div>}
+    {!visible.length && <div className="py-20 text-center"><SlidersHorizontal className="mx-auto text-ink/20" size={30} /><p className="mt-3 font-display text-xl font-bold">Nothing in this batch.</p></div>}
+  </main>
+}
