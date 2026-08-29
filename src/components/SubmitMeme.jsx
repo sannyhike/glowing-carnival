@@ -3,8 +3,138 @@ import { Upload, ImagePlus, ArrowLeft, CheckCircle2 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
 export default function SubmitMeme({ user, onAuth, onNavigate }) {
-  const inputRef = useRef(null); const [file, setFile] = useState(null); const [title, setTitle] = useState(''); const [handle, setHandle] = useState(''); const [status, setStatus] = useState(''); const [loading, setLoading] = useState(false)
-  async function submit(event) { event.preventDefault(); if (!user) return onAuth(); if (!file) return setStatus('Choose an image first.'); setLoading(true); if (supabase) { const path = `${user.id}/${crypto.randomUUID()}-${file.name}`; const upload = await supabase.storage.from('memes').upload(path, file); if (upload.error) { setStatus(upload.error.message); setLoading(false); return } const { error } = await supabase.from('submissions').insert({ title, image_url: path, submitter_name: user.email?.split('@')[0], submitter_handle: handle, status: 'pending' }); if (error) { setStatus(error.message); setLoading(false); return } } setLoading(false); setStatus('submitted') }
-  if (status === 'submitted') return <main className="mx-auto max-w-2xl px-5 py-20 text-center"><div className="mx-auto grid h-16 w-16 place-items-center rounded-3xl bg-lime text-ink"><CheckCircle2 size={30} /></div><h1 className="mt-7 font-display text-4xl font-bold tracking-tight">Into the queue it goes.</h1><p className="mx-auto mt-4 max-w-md leading-relaxed text-ink/55">Thanks for adding to the glow. We’ll give your meme a quick look before it hits the public feed.</p><button onClick={() => onNavigate('feed')} className="mt-8 rounded-full bg-ink px-6 py-3 font-bold text-lime">Back to the feed</button></main>
-  return <main className="mx-auto max-w-3xl px-5 pb-20 pt-12 lg:pt-20"><button onClick={() => onNavigate('feed')} className="mb-10 flex items-center gap-2 text-sm font-bold text-ink/45 hover:text-ink"><ArrowLeft size={16} /> Back to feed</button><div className="mb-10"><p className="eyebrow">Make it official</p><h1 className="mt-3 font-display text-5xl font-bold tracking-[-0.05em] sm:text-6xl">Submit a meme<span className="text-coral">.</span></h1><p className="mt-4 max-w-lg leading-relaxed text-ink/55">Your masterpiece will get a quick human review before it joins the archive.</p></div><form onSubmit={submit} className="rounded-[1.75rem] border border-ink/10 bg-white p-5 shadow-soft sm:p-8"><div onClick={() => inputRef.current?.click()} className="group cursor-pointer rounded-2xl border-2 border-dashed border-ink/15 p-8 text-center transition-colors hover:border-coral/60 hover:bg-coral/5 sm:p-14">{file ? <><ImagePlus className="mx-auto text-coral" size={34} /><p className="mt-4 font-bold">{file.name}</p><p className="mt-1 text-xs text-ink/45">Click to choose a different image</p></> : <><Upload className="mx-auto text-ink/35 transition-transform group-hover:-translate-y-1" size={34} /><p className="mt-4 font-bold">Drop your best one here</p><p className="mt-1 text-xs text-ink/45">PNG, JPG or GIF up to 10 MB</p></>}<input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={(e) => setFile(e.target.files?.[0])} /></div><div className="mt-7 grid gap-5 sm:grid-cols-2"><label className="block text-sm font-bold sm:col-span-2">Meme title<input required maxLength="160" value={title} onChange={(e) => setTitle(e.target.value)} className="input mt-2" placeholder="Give it a name people will remember" /></label><label className="block text-sm font-bold sm:col-span-2">Your handle <span className="font-normal text-ink/35">(for credit)</span><input value={handle} onChange={(e) => setHandle(e.target.value)} className="input mt-2" placeholder="@yourname or a social link" /></label></div>{status && <p className="mt-5 rounded-xl bg-coral/10 px-4 py-3 text-sm font-semibold text-coral">{status}</p>}<button disabled={loading} className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3.5 font-bold text-lime transition-transform hover:-translate-y-0.5 disabled:opacity-60">{loading ? 'Uploading...' : 'Send for review'} <Upload size={17} /></button></form></main>
+  const inputRef = useRef(null)
+  const [file, setFile] = useState(null)
+  const [title, setTitle] = useState('')
+  const [handle, setHandle] = useState('')
+  const [status, setStatus] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function submit(event) {
+    event.preventDefault()
+    if (!user) return onAuth()
+    if (!file) return setStatus('Choose an image first.')
+    setLoading(true)
+    if (supabase) {
+      const path = `${user.id}/${crypto.randomUUID()}-${file.name}`
+      const upload = await supabase.storage.from('memes').upload(path, file)
+      if (upload.error) {
+        setStatus(upload.error.message)
+        setLoading(false)
+        return
+      }
+      const { error } = await supabase.from('submissions').insert({
+        title,
+        image_url: path,
+        submitter_name: user.email?.split('@')[0],
+        submitter_handle: handle,
+        status: 'pending'
+      })
+      if (error) {
+        setStatus(error.message)
+        setLoading(false)
+        return
+      }
+    }
+    setLoading(false)
+    setStatus('submitted')
+  }
+
+  if (status === 'submitted') {
+    return (
+      <main className="mx-auto max-w-2xl px-5 py-20 text-center">
+        <div className="mx-auto grid h-16 w-16 place-items-center rounded-3xl bg-lime text-ink">
+          <CheckCircle2 size={30} />
+        </div>
+        <h1 className="mt-7 font-display text-4xl font-bold tracking-tight text-ink dark:text-cream">
+          Into the queue it goes.
+        </h1>
+        <p className="mx-auto mt-4 max-w-md leading-relaxed text-ink/55 dark:text-cream/55">
+          Thanks for adding to the glow. We'll give your meme a quick look before it hits the public feed.
+        </p>
+        <button
+          onClick={() => onNavigate('feed')}
+          className="mt-8 rounded-full bg-ink dark:bg-cream px-6 py-3 font-bold text-lime dark:text-slate-950"
+        >
+          Back to the feed
+        </button>
+      </main>
+    )
+  }
+
+  return (
+    <main className="mx-auto max-w-3xl px-5 pb-20 pt-12 lg:pt-20">
+      <button
+        onClick={() => onNavigate('feed')}
+        className="mb-10 flex items-center gap-2 text-sm font-bold text-ink/45 dark:text-cream/45 hover:text-ink dark:hover:text-cream"
+      >
+        <ArrowLeft size={16} /> Back to feed
+      </button>
+      <div className="mb-10">
+        <p className="eyebrow text-coral">Make it official</p>
+        <h1 className="mt-3 font-display text-5xl font-bold tracking-[-0.05em] text-ink dark:text-cream sm:text-6xl">
+          Submit a meme<span className="text-coral">.</span>
+        </h1>
+        <p className="mt-4 max-w-lg leading-relaxed text-ink/55 dark:text-cream/55">
+          Your masterpiece will get a quick human review before it joins the archive.
+        </p>
+      </div>
+      <form onSubmit={submit} className="rounded-[1.75rem] border border-ink/10 dark:border-cream/10 bg-white dark:bg-slate-900 p-5 shadow-soft sm:p-8">
+        <div
+          onClick={() => inputRef.current?.click()}
+          className="group cursor-pointer rounded-2xl border-2 border-dashed border-ink/15 dark:border-cream/15 p-8 text-center transition-colors hover:border-coral/60 hover:bg-coral/5 dark:hover:border-coral/40 dark:hover:bg-coral/10 sm:p-14"
+        >
+          {file ? (
+            <>
+              <ImagePlus className="mx-auto text-coral" size={34} />
+              <p className="mt-4 font-bold text-ink dark:text-cream">{file.name}</p>
+              <p className="mt-1 text-xs text-ink/45 dark:text-cream/45">Click to choose a different image</p>
+            </>
+          ) : (
+            <>
+              <Upload className="mx-auto text-ink/35 dark:text-cream/35 transition-transform group-hover:-translate-y-1" size={34} />
+              <p className="mt-4 font-bold text-ink dark:text-cream">Drop your best one here</p>
+              <p className="mt-1 text-xs text-ink/45 dark:text-cream/45">PNG, JPG or GIF up to 10 MB</p>
+            </>
+          )}
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => setFile(e.target.files?.[0])}
+          />
+        </div>
+        <div className="mt-7 grid gap-5 sm:grid-cols-2">
+          <label className="block text-sm font-bold text-ink dark:text-cream sm:col-span-2">
+            Meme title
+            <input
+              required
+              maxLength="160"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="input mt-2 bg-white dark:bg-slate-900 text-ink dark:text-cream border-ink/10 dark:border-cream/10 placeholder-ink/40 dark:placeholder-cream/40"
+              placeholder="Give it a name people will remember"
+            />
+          </label>
+          <label className="block text-sm font-bold text-ink dark:text-cream sm:col-span-2">
+            Your handle <span className="font-normal text-ink/35 dark:text-cream/35">(for credit)</span>
+            <input
+              value={handle}
+              onChange={(e) => setHandle(e.target.value)}
+              className="input mt-2 bg-white dark:bg-slate-900 text-ink dark:text-cream border-ink/10 dark:border-cream/10 placeholder-ink/40 dark:placeholder-cream/40"
+              placeholder="@yourname or a social handle"
+            />
+          </label>
+        </div>
+        <div className="mt-7">{status && <p className="rounded-xl bg-coral/10 dark:bg-coral/20 px-4 py-3 text-sm font-semibold text-coral">{status}</p>}</div>
+        <button
+          disabled={loading}
+          className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-ink dark:bg-cream py-3.5 font-bold text-lime dark:text-slate-950 transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+        >
+          {loading ? 'Uploading...' : 'Submit your meme'}
+        </button>
+      </form>
+    </main>
+  )
 }
