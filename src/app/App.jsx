@@ -40,7 +40,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-cream dark:bg-slate-950 text-ink dark:text-cream transition-colors">
+    <div className="min-h-screen bg-cream dark:bg-dark-bg text-ink dark:text-dark-text transition-colors">
       <Navbar
         user={user}
         isAdmin={isAdmin}
@@ -54,7 +54,7 @@ export default function App() {
       {view === 'submit' && <SubmitMeme user={user} onAuth={() => setAuthOpen(true)} onNavigate={setView} />}
       {view === 'admin' && <AdminDashboard user={user} isAdmin={isAdmin} onNavigate={setView} />}
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} onSuccess={(nextUser) => { setUser(nextUser); setAuthOpen(false) }} />}
-      <footer className="mx-auto flex max-w-7xl justify-between border-t border-ink/10 dark:border-cream/10 px-5 py-7 text-xs font-bold text-ink/35 dark:text-cream/35 lg:px-10">
+      <footer className="mx-auto flex max-w-7xl justify-between border-t border-ink/10 dark:border-dark-text/10 px-5 py-7 text-xs font-bold text-ink/35 dark:text-dark-text/35 lg:px-10">
         <span>© 2026 glowing.</span>
         <span>made for the group chat</span>
       </footer>

@@ -46,15 +46,15 @@ export default function SubmitMeme({ user, onAuth, onNavigate }) {
         <div className="mx-auto grid h-16 w-16 place-items-center rounded-3xl bg-lime text-ink">
           <CheckCircle2 size={30} />
         </div>
-        <h1 className="mt-7 font-display text-4xl font-bold tracking-tight text-ink dark:text-cream">
+        <h1 className="mt-7 font-display text-4xl font-bold tracking-tight text-ink dark:text-dark-text">
           Into the queue it goes.
         </h1>
-        <p className="mx-auto mt-4 max-w-md leading-relaxed text-ink/55 dark:text-cream/55">
+        <p className="mx-auto mt-4 max-w-md leading-relaxed text-ink/55 dark:text-dark-text/55">
           Thanks for adding to the glow. We'll give your meme a quick look before it hits the public feed.
         </p>
         <button
           onClick={() => onNavigate('feed')}
-          className="mt-8 rounded-full bg-ink dark:bg-cream px-6 py-3 font-bold text-lime dark:text-slate-950"
+          className="mt-8 rounded-full bg-ink dark:bg-dark-text px-6 py-3 font-bold text-lime dark:text-dark-bg"
         >
           Back to the feed
         </button>
@@ -66,35 +66,35 @@ export default function SubmitMeme({ user, onAuth, onNavigate }) {
     <main className="mx-auto max-w-3xl px-5 pb-20 pt-12 lg:pt-20">
       <button
         onClick={() => onNavigate('feed')}
-        className="mb-10 flex items-center gap-2 text-sm font-bold text-ink/45 dark:text-cream/45 hover:text-ink dark:hover:text-cream"
+        className="mb-10 flex items-center gap-2 text-sm font-bold text-ink/45 dark:text-dark-text/45 hover:text-ink dark:hover:text-dark-text"
       >
         <ArrowLeft size={16} /> Back to feed
       </button>
       <div className="mb-10">
         <p className="eyebrow text-coral">Make it official</p>
-        <h1 className="mt-3 font-display text-5xl font-bold tracking-[-0.05em] text-ink dark:text-cream sm:text-6xl">
+        <h1 className="mt-3 font-display text-5xl font-bold tracking-[-0.05em] text-ink dark:text-dark-text sm:text-6xl">
           Submit a meme<span className="text-coral">.</span>
         </h1>
-        <p className="mt-4 max-w-lg leading-relaxed text-ink/55 dark:text-cream/55">
+        <p className="mt-4 max-w-lg leading-relaxed text-ink/55 dark:text-dark-text/55">
           Your masterpiece will get a quick human review before it joins the archive.
         </p>
       </div>
-      <form onSubmit={submit} className="rounded-[1.75rem] border border-ink/10 dark:border-cream/10 bg-white dark:bg-slate-900 p-5 shadow-soft sm:p-8">
+      <form onSubmit={submit} className="rounded-[1.75rem] border border-ink/10 dark:border-dark-text/10 bg-white dark:bg-dark-surface p-5 shadow-soft sm:p-8">
         <div
           onClick={() => inputRef.current?.click()}
-          className="group cursor-pointer rounded-2xl border-2 border-dashed border-ink/15 dark:border-cream/15 p-8 text-center transition-colors hover:border-coral/60 hover:bg-coral/5 dark:hover:border-coral/40 dark:hover:bg-coral/10 sm:p-14"
+          className="group cursor-pointer rounded-2xl border-2 border-dashed border-ink/15 dark:border-dark-text/15 p-8 text-center transition-colors hover:border-coral/60 hover:bg-coral/5 dark:hover:border-coral/40 dark:hover:bg-coral/10 sm:p-14"
         >
           {file ? (
             <>
               <ImagePlus className="mx-auto text-coral" size={34} />
-              <p className="mt-4 font-bold text-ink dark:text-cream">{file.name}</p>
-              <p className="mt-1 text-xs text-ink/45 dark:text-cream/45">Click to choose a different image</p>
+              <p className="mt-4 font-bold text-ink dark:text-dark-text">{file.name}</p>
+              <p className="mt-1 text-xs text-ink/45 dark:text-dark-text/45">Click to choose a different image</p>
             </>
           ) : (
             <>
-              <Upload className="mx-auto text-ink/35 dark:text-cream/35 transition-transform group-hover:-translate-y-1" size={34} />
-              <p className="mt-4 font-bold text-ink dark:text-cream">Drop your best one here</p>
-              <p className="mt-1 text-xs text-ink/45 dark:text-cream/45">PNG, JPG or GIF up to 10 MB</p>
+              <Upload className="mx-auto text-ink/35 dark:text-dark-text/35 transition-transform group-hover:-translate-y-1" size={34} />
+              <p className="mt-4 font-bold text-ink dark:text-dark-text">Drop your best one here</p>
+              <p className="mt-1 text-xs text-ink/45 dark:text-dark-text/45">PNG, JPG or GIF up to 10 MB</p>
             </>
           )}
           <input
@@ -106,23 +106,23 @@ export default function SubmitMeme({ user, onAuth, onNavigate }) {
           />
         </div>
         <div className="mt-7 grid gap-5 sm:grid-cols-2">
-          <label className="block text-sm font-bold text-ink dark:text-cream sm:col-span-2">
+          <label className="block text-sm font-bold text-ink dark:text-dark-text sm:col-span-2">
             Meme title
             <input
               required
               maxLength="160"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="input mt-2 bg-white dark:bg-slate-900 text-ink dark:text-cream border-ink/10 dark:border-cream/10 placeholder-ink/40 dark:placeholder-cream/40"
+              className="input mt-2 bg-white dark:bg-dark-bg text-ink dark:text-dark-text border-ink/10 dark:border-dark-text/20 placeholder-ink/40 dark:placeholder-dark-text/40"
               placeholder="Give it a name people will remember"
             />
           </label>
-          <label className="block text-sm font-bold text-ink dark:text-cream sm:col-span-2">
-            Your handle <span className="font-normal text-ink/35 dark:text-cream/35">(for credit)</span>
+          <label className="block text-sm font-bold text-ink dark:text-dark-text sm:col-span-2">
+            Your handle <span className="font-normal text-ink/35 dark:text-dark-text/35">(for credit)</span>
             <input
               value={handle}
               onChange={(e) => setHandle(e.target.value)}
-              className="input mt-2 bg-white dark:bg-slate-900 text-ink dark:text-cream border-ink/10 dark:border-cream/10 placeholder-ink/40 dark:placeholder-cream/40"
+              className="input mt-2 bg-white dark:bg-dark-bg text-ink dark:text-dark-text border-ink/10 dark:border-dark-text/20 placeholder-ink/40 dark:placeholder-dark-text/40"
               placeholder="@yourname or a social handle"
             />
           </label>
@@ -130,7 +130,7 @@ export default function SubmitMeme({ user, onAuth, onNavigate }) {
         <div className="mt-7">{status && <p className="rounded-xl bg-coral/10 dark:bg-coral/20 px-4 py-3 text-sm font-semibold text-coral">{status}</p>}</div>
         <button
           disabled={loading}
-          className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-ink dark:bg-cream py-3.5 font-bold text-lime dark:text-slate-950 transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+          className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-ink dark:bg-dark-text py-3.5 font-bold text-lime dark:text-dark-bg transition-transform hover:-translate-y-0.5 disabled:opacity-60"
         >
           {loading ? 'Uploading...' : 'Submit your meme'}
         </button>

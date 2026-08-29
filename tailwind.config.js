@@ -9,6 +9,9 @@ export default {
         cream: '#f7f8f3',
         lime: '#d5f36b',
         coral: '#ff7d68',
+        'dark-bg': '#121212',
+        'dark-surface': '#1e1e1e',
+        'dark-text': '#e8e8e8',
       },
       fontFamily: {
         sans: ['DM Sans', 'ui-sans-serif', 'sans-serif'],
