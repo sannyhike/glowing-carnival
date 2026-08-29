@@ -4,5 +4,5 @@ export const demoMemes = [
   { id: 'demo-3', title: 'The group chat has entered its academic era', image_url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=85', author_credit: '@pixelpusher', created_at: '2026-08-26T09:45:00Z', likes: 512, comments: 17, accent: 'sky' },
   { id: 'demo-4', title: 'Just one more episode', image_url: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1000&q=85', author_credit: '@nightowl', created_at: '2026-08-25T22:15:00Z', likes: 389, comments: 14, accent: 'yellow' },
   { id: 'demo-5', title: 'When the playlist knows you better', image_url: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1000&q=85', author_credit: '@analogheart', created_at: '2026-08-24T13:10:00Z', likes: 277, comments: 9, accent: 'blue' },
-  { id: 'demo-6', title: 'Me after saying it is a quick fix', image_url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=85', author_credit: '@shipit', created_at: '2026-08-23T08:40:00Z', likes: 216, comments: 11, accent: 'pink' },
+  { id: 'demo-6', title: 'Me after saying it is a quick fix', image_url: 'Assets/WIN_20250401_09_28_38_Pro.jpg', author_credit: '@shipit', created_at: '2026-08-23T08:40:00Z', likes: 216, comments: 11, accent: 'pink' },
 ]
